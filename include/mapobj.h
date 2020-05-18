@@ -8,12 +8,19 @@ class MapObj {
 private:
 	GLint id;
 	glm::vec3 pos;
-	glm::vec2 size;
+	glm::vec3 size;
 	bool visible;
 public:
 
 	MapObj() {}
-	MapObj(int i, glm::vec3 p, glm::vec2 s) { id = 0; pos = p; size = s; visible = true; }
-	//mapObj(GLenum primitive_mode, int numVertices, const GLfloat* vertices, const GLfloat* normal, const GLfloat* tex, texture* texProg, shader* shaProg, GLenum fill_mode, int i, glm::vec3 p, glm::vec2 s) : gameObj(primitive_mode, numVertices, vertices, normal, tex, texProg, shaProg, fill_mode) { id = i; pos = p; size = s; visible = true; }
-	int getId() { return id; }
+	MapObj(int i, glm::vec3 p, glm::vec3 s) { id = 0; pos = p; size = s; visible = true; }
+
+
+
+
+	inline void setPos(glm::vec3 nuPos) { pos = nuPos; }
+	inline void setSize(glm::vec3 nuSize) { size = nuSize; }
+	inline glm::vec3 getPos() { return pos; }
+	inline glm::vec3 getSize() { return size; }
+	inline int getId() { return id; }
 };

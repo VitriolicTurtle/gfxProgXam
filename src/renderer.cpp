@@ -1,6 +1,6 @@
 #include "..\include\renderer.h"
 
-void Renderer::loadMap(WallObj* wallObj) {
+void Renderer::loadMap(WallObj* wallObj, Player player) {
 	glUseProgram(wallObj->textureProgramID->id());
 
 	glBindTexture(GL_TEXTURE_2D, wallObj->textureProgramID->id());
@@ -32,9 +32,8 @@ void Renderer::loadMap(WallObj* wallObj) {
 	glUniformMatrix4fv(modelID, 1, GL_FALSE, glm::value_ptr(model));
 
 
-	//glUniformMatrix4fv(viewID, 1, GL_FALSE, glm::value_ptr(pacman->view));
-	//glUniform3f(lightPositionID, pacman->cameraPos.x, pacman->cameraPos.y, pacman->cameraPos.z);
-	glUniform3f(lightPositionID, 0, 0, 0);
+	glUniformMatrix4fv(viewID, 1, GL_FALSE, glm::value_ptr(player.getView()));
+	glUniform3f(lightPositionID, player.getPos().x, player.getPos().y, player.getPos().z);
 	glUniform3f(colourID, 1.0, 1.0f, 1.0f);
 	/*
 	*	Draws the cube

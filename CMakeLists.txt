@@ -19,7 +19,8 @@ target_sources(
     ${CMAKE_CURRENT_LIST_DIR}/include/renderer.h
     ${CMAKE_CURRENT_LIST_DIR}/src/renderer.cpp
 
-    ${CMAKE_CURRENT_LIST_DIR}/include/mapobj.h
+    ${CMAKE_CURRENT_LIST_DIR}/include/player.h
+    ${CMAKE_CURRENT_LIST_DIR}/src/player.cpp
 
     ${CMAKE_CURRENT_LIST_DIR}/include/wallobj.h
     ${CMAKE_CURRENT_LIST_DIR}/src/wallobj.cpp
@@ -35,6 +36,9 @@ target_sources(
 
     ${CMAKE_CURRENT_LIST_DIR}/include/window.h
     ${CMAKE_CURRENT_LIST_DIR}/src/window.cpp
+
+    ${CMAKE_CURRENT_LIST_DIR}/include/mapobj.h
+
 )
 
 # Set include directories
