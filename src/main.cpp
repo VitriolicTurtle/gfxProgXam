@@ -1,7 +1,9 @@
-#include <iostream>
-
+#include "game.h"
 
 int main() {
-	std::cout << "It's go time" << std::endl;
+
+	Game natureSim;
+	natureSim.startGame();
+	
 	return 0;
 }

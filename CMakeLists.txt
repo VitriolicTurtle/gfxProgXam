@@ -13,6 +13,28 @@ target_sources(
     PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/src/main.cpp
 
+    ${CMAKE_CURRENT_LIST_DIR}/include/game.h
+    ${CMAKE_CURRENT_LIST_DIR}/src/game.cpp
+
+    ${CMAKE_CURRENT_LIST_DIR}/include/renderer.h
+    ${CMAKE_CURRENT_LIST_DIR}/src/renderer.cpp
+
+    ${CMAKE_CURRENT_LIST_DIR}/include/mapobj.h
+
+    ${CMAKE_CURRENT_LIST_DIR}/include/wallobj.h
+    ${CMAKE_CURRENT_LIST_DIR}/src/wallobj.cpp
+
+    ${CMAKE_CURRENT_LIST_DIR}/include/shader.h
+    ${CMAKE_CURRENT_LIST_DIR}/src/shader.cpp
+
+    ${CMAKE_CURRENT_LIST_DIR}/include/texture.h
+    ${CMAKE_CURRENT_LIST_DIR}/src/texture.cpp
+
+    ${CMAKE_CURRENT_LIST_DIR}/include/constants.h
+    ${CMAKE_CURRENT_LIST_DIR}/src/constants.cpp
+
+    ${CMAKE_CURRENT_LIST_DIR}/include/window.h
+    ${CMAKE_CURRENT_LIST_DIR}/src/window.cpp
 )
 
 # Set include directories

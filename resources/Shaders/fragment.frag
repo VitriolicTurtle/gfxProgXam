@@ -57,7 +57,7 @@ void main() {
     vec4 tex = texture(sampler, tex_coord);
     vec3 light;
 
-    light += PointLight(light_position[0], light_color, 0.5, 0.25, 0.125);
+    light = PointLight(light_position, light_color, 0.5, 0.25, 0.125);
 
     outColor = vec4(testCol, 1.f) * vec4(tex.rgb * light, tex.a);
 
