@@ -13,7 +13,7 @@ Game::Game(int w, int h) {
 
     // glfwSetInputMode(myWindow.window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     glfwSetInputMode(gameWindow.window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    //glfwSetCursorPosCallback(myWindow.window, mouseCallback);      
+    glfwSetCursorPosCallback(gameWindow.window, mouseCallback);
 
     // Defaults
     glEnable(GL_MULTISAMPLE);
@@ -53,8 +53,10 @@ void Game::startGame() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
+
+
         renderer.loadMap(wall, player);
-        player.move(&gameWindow, deltaTime);
+        player.movePlayer(&gameWindow, deltaTime);
 
 
 

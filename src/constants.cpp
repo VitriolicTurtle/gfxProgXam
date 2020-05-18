@@ -1,6 +1,31 @@
 #include "constants.h"
 
 
+
+
+
+// Function had to be global for fetching to work.
+glm::vec2 mouseData(0);
+void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
+	mouseData = glm::vec2(xpos, ypos);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 GLfloat vertices[] = {              // Vert. coords
 			-0.5f, -0.5f, -0.5f,                    //Back Face
 			 0.5f, -0.5f, -0.5f,
@@ -133,7 +158,4 @@ GLfloat uvCoordinates[] = {            //Tex. coords
 	 0.0f,  1.0f,
 	 0.0f,  0.0f,
 };
-
-
-
 

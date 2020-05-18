@@ -22,6 +22,9 @@ target_sources(
     ${CMAKE_CURRENT_LIST_DIR}/include/player.h
     ${CMAKE_CURRENT_LIST_DIR}/src/player.cpp
 
+    ${CMAKE_CURRENT_LIST_DIR}/include/maploader.h
+    ${CMAKE_CURRENT_LIST_DIR}/src/maploader.cpp
+
     ${CMAKE_CURRENT_LIST_DIR}/include/wallobj.h
     ${CMAKE_CURRENT_LIST_DIR}/src/wallobj.cpp
 
