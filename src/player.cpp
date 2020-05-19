@@ -3,7 +3,7 @@
 void Player::movePlayer(Window* window, float deltaTime){
     
     glm::vec3 tempCamPos = this->getPos();
-    float cameraSpeed = 2.5 * deltaTime;                   
+    float cameraSpeed = 6.5 * deltaTime;                   
     bool move = true;
 
     if (glfwGetKey(window->window, GLFW_KEY_W) == GLFW_PRESS)      

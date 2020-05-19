@@ -3,8 +3,7 @@
 #include "renderer.h"
 #include "texture.h"
 #include "shader.h"
-#include "player.h"
-
+#include "maploader.h"
 
 class Game {
 private:

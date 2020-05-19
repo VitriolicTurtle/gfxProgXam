@@ -24,17 +24,14 @@ Game::Game(int w, int h) {
 }
 
 
-#include "wallobj.h"
-glm::vec3 ppp(0, 0, 3);
-glm::vec3 sss(1, 1, 1);
 
 void Game::startGame() {
     GFX_INFO("starting app...");
-    ObjTexture* texProgBrick = new ObjTexture("resources/Textures/BrickWall.jpg", false);
-    ObjShader* shaProg = new ObjShader("resources/Shaders/vertex.vert", "resources/Shaders/fragment.frag");
-    WallObj* wall = new WallObj(GL_TRIANGLES, 36, vertices, normal, uvCoordinates, texProgBrick, shaProg, GL_FILL, 1, ppp, sss);
+    
+    MapLoader mapObjects;
+    mapObjects.loadMap("zxzz");
+
     Renderer renderer;
-    Player player;
 
 
 
@@ -55,8 +52,8 @@ void Game::startGame() {
 
 
 
-        renderer.loadMap(wall, player);
-        player.movePlayer(&gameWindow, deltaTime);
+        renderer.loadMap(mapObjects.getWallVector(), mapObjects.getPlayer());
+        mapObjects.getPlayer()->movePlayer(&gameWindow, deltaTime);
 
 
 

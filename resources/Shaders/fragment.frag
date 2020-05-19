@@ -46,7 +46,7 @@ vec3 PointLight(
 
         // Attenuation          Intensity reduction when traveling through space.
         float distance = length(position - vec3(model * vert_position));
-        float attenuation = 1 / (constant + linear * distance + quadratic * distance * distance + EPSILON);
+        float attenuation = 12 / (constant + linear * distance + quadratic * distance * distance + EPSILON);
         
         return (ambient + diffuse + specular) * attenuation;
         }

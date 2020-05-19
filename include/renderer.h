@@ -7,5 +7,5 @@ private:
 
 public:
 	Renderer() {}
-	void loadMap(WallObj* wallObj, Player player);	// Loads and updates the map.
+	void loadMap(std::vector<WallObj>* wallVector, Player* player);	// Loads and updates the map.
 };
