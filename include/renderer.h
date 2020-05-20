@@ -1,11 +1,10 @@
 #include "constants.h"
-#include "wallobj.h"
-#include "player.h"
+#include "maploader.h"
 
 class Renderer {
 private:
 
 public:
 	Renderer() {}
-	//void loadMap(std::vector<WallObj>* wallVector, Player* player);	// Loads and updates the map.
+	void drawMap(MapLoader* map);
 };

@@ -28,12 +28,8 @@ Game::Game(int w, int h) {
 void Game::startGame() {
     GFX_INFO("starting app...");
     
-    MapLoader mapObjects;
-    mapObjects.loadMap();
-    //mapObjects.normalsGenerator(10, 10);
-    
+    MapLoader loader;
     Renderer renderer;
-
 
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
@@ -44,18 +40,20 @@ void Game::startGame() {
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
         //////////////////////////////////////////////////////
-
         gameWindow.setViewport();
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        /*
+        *    Everything game related
+        */
+        //////////////////////////////////////////////////////
+
+        loader.getPlayer()->movePlayer(&gameWindow, deltaTime);
+        renderer.drawMap(&loader);
 
 
-        mapObjects.getPlayer()->movePlayer(&gameWindow, deltaTime);
-        mapObjects.MVP();
-        mapObjects.render();
-
-
+        //////////////////////////////////////////////////////
         gameWindow.swapBuffers();         
         glfwPollEvents();               
     } while (!gameWindow.shouldClose());
