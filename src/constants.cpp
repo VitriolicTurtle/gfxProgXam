@@ -19,7 +19,28 @@ void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
 
 
 
+GLfloat miniVertices[] = {
+	// positions         
+	-0.5f,  0.5f, -0.5f,           //Top Face
+	 0.5f,  0.5f, -0.5f,
+	 0.5f,  0.5f,  0.5f,
+	 0.5f,  0.5f,  0.9f,
+	-0.5f,  0.5f,  0.9f,
+	-0.5f,  0.1f, -0.9f,
 
+};
+
+GLfloat miniUvCoords[] = {
+	1.0f, 1.0f,
+	1.0f, 0.0f,
+	0.0f, 0.0f,
+	0.0f, 1.0f
+};
+
+GLfloat indices[] = {
+	0, 1, 3, // first triangle
+	1, 2, 3  // second triangle
+};
 
 
 
@@ -48,9 +69,9 @@ GLfloat vertices[] = {              // Vert. coords
 			-0.5f, -0.5f,  0.5f,
 			-0.5f,  0.5f,  0.5f,
 
-			 0.5f,  0.5f,  0.5f,           //Right Face
-			 0.5f,  0.5f, -0.5f,
-			 0.5f, -0.5f, -0.5f,
+			 0.05f,  0.05f,  0.05f,           //Right Face
+			 0.05f,  0.05f, -0.05f,
+			 0.05f, -0.05f, -0.05f,
 			 0.5f, -0.5f, -0.5f,
 			 0.5f, -0.5f,  0.5f,
 			 0.5f,  0.5f,  0.5f,

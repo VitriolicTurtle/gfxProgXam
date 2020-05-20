@@ -22,6 +22,7 @@ public:
     void setTex(GLuint tempTex);
     int getPixel(int x, int y); 
 
+    glm::vec2 getSize(){ return glm::vec2(twidth, theight); }
     GLuint id() const { return textureID; }
     void bind() { glActiveTexture(GL_TEXTURE0 + 0); glBindTexture(GL_TEXTURE_2D, textureID); }
     void unbind() { glBindTexture(GL_TEXTURE_2D, 0); }

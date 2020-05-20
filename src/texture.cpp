@@ -54,10 +54,7 @@ ObjTexture::ObjTexture(const char* filename, bool flipImage) {
         return;
     }
 
-
-    pixelData = std::vector<unsigned char>(image, image + twidth * theight * 4);
-
-
+     pixelData = std::vector<unsigned char>(image, image + twidth * theight*4);
 
 
     GLenum format;
@@ -74,11 +71,11 @@ ObjTexture::ObjTexture(const char* filename, bool flipImage) {
 
     // Set these parameters to avoid a black screen caused by improperly mipmapped textures
     glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, textureID);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 

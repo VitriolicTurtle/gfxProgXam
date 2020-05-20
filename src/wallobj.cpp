@@ -1,10 +1,10 @@
 #include "..\include\wallobj.h"
 
-WallObj::WallObj(GLenum primitive_mode, int numVertices, const GLfloat* vertices, const GLfloat* normal, const GLfloat* tex, ObjTexture* texProg, ObjShader* shaProg, GLenum fill_mode, int id, glm::vec3 pos, glm::vec3 size) : MapObj(id, pos, size) {
+WallObj::WallObj(GLenum primitive_mode, int numVertices, std::vector<short> indices, std::vector<glm::vec3> vertices, const GLfloat* tex, ObjTexture* texProg, ObjShader* shaProg, GLenum fill_mode, int id, glm::vec3 pos, glm::vec3 size) : MapObj(id, pos, size) {
 	// Fill inn data into VAO struct
 	this->ShaderID = shaProg;
 	this->textureProgramID = texProg;
-	this->NumVertices = numVertices;
+	this->NumVertices = indices.size();
 	this->PrimitiveMode = primitive_mode;
 
 	this->FillMode = fill_mode;
@@ -13,7 +13,7 @@ WallObj::WallObj(GLenum primitive_mode, int numVertices, const GLfloat* vertices
 	// Should be done after CreateWindow and before any other GL calls
 	glGenVertexArrays(1, &(this->VertexArrayID)); // VAO
 	glBindVertexArray(this->VertexArrayID); // Bind the VAO
-
+	/*
 	glGenBuffers(1, &(this->VertexBuffer)); // VBO - vertices
 	glBindBuffer(GL_ARRAY_BUFFER, this->VertexBuffer); // Bind the VBO vertices
 	glBufferData(GL_ARRAY_BUFFER, 6 * 6 * 3 * sizeof(GLfloat), vertices, GL_STATIC_DRAW); // Copy the vertices into VBO
@@ -34,6 +34,83 @@ WallObj::WallObj(GLenum primitive_mode, int numVertices, const GLfloat* vertices
 	GLint textureCoordinateID = glGetAttribLocation(this->ShaderID->id(), "uv_coord");
 	glVertexAttribPointer(textureCoordinateID, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(textureCoordinateID);
+	*/
+
+	glGenBuffers(1, &(this->VertexBuffer)); // VBO - vertices
+	glBindBuffer(GL_ARRAY_BUFFER, this->VertexBuffer); // Bind the VBO vertices
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), &vertices.front(), GL_STATIC_DRAW); // Copy the vertices into VBO
+	GLint positionID = glGetAttribLocation(this->ShaderID->id(), "position");
+	glVertexAttribPointer(positionID, 3, GL_FLOAT, GL_FALSE, sizeof(float), 0);
+	glEnableVertexAttribArray(positionID);
+
+	/*
+	glGenBuffers(1, &(this->NormalBuffer));  // VBO - Normal
+	glBindBuffer(GL_ARRAY_BUFFER, this->NormalBuffer); // Bind the VBO vertices
+	glBufferData(GL_ARRAY_BUFFER, indices.size() * sizeof(float), normal, GL_STATIC_DRAW); // Copy the vertices into VBO
+	GLint normalID = glGetAttribLocation(this->ShaderID->id(), "normal");
+	glVertexAttribPointer(normalID, 3, GL_FLOAT, GL_FALSE, sizeof(float), 0);
+	glEnableVertexAttribArray(normalID);   //<-- Enable normalID attribute
+	*/
+
+	glGenBuffers(1, &(this->TextureBuffer));  // VBO - textures
+	glBindBuffer(GL_ARRAY_BUFFER, this->TextureBuffer); // Bind the VBO textures
+	glBufferData(GL_ARRAY_BUFFER, 6 * 6 * 2 * sizeof(float), tex, GL_STATIC_DRAW);  // Copy the vertex into VBO
+	GLint textureCoordinateID = glGetAttribLocation(this->ShaderID->id(), "uv_coord");
+	glVertexAttribPointer(textureCoordinateID, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(textureCoordinateID);
+
+	glGenBuffers(1, &this->EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(short), &indices.front(), GL_STATIC_DRAW);
+
+	
+	GLint ColourID = glGetAttribLocation(this->ShaderID->id(), "aColour");
+	glVertexAttribPointer(textureCoordinateID, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(textureCoordinateID);
+
+
+
+	glActiveTexture(GL_TEXTURE0);
+}
+/*
+WallObj::WallObj(GLenum primitive_mode, int numVertices, GLushort* indicesv2, const glm::vec3* vertices, const glm::vec3* normal, const GLfloat* tex, ObjTexture* texProg, ObjShader* shaProg, GLenum fill_model, int id, glm::vec3 pos, glm::vec3 size){
+	this->ShaderID = shaProg;
+	this->textureProgramID = texProg;
+	this->NumVertices = numVertices;
+	this->PrimitiveMode = primitive_mode;
+
+	this->FillMode = fill_model;
+
+	// Create Vertex Array Object
+	// Should be done after CreateWindow and before any other GL calls
+	glGenVertexArrays(1, &(this->VertexArrayID)); // VAO
+	glBindVertexArray(this->VertexArrayID); // Bind the VAO
+
+	glGenBuffers(1, &(this->VertexBuffer)); // VBO - vertices
+	glBindBuffer(GL_ARRAY_BUFFER, this->VertexBuffer); // Bind the VBO vertices
+	glBufferData(GL_ARRAY_BUFFER, 256 * 256 * sizeof(glm::vec3), vertices, GL_STATIC_DRAW); // Copy the vertices into VBO
+	GLint positionID = glGetAttribLocation(this->ShaderID->id(), "position");
+	glVertexAttribPointer(positionID, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), 0);
+	glEnableVertexAttribArray(positionID);
+
+	glGenBuffers(1, &(this->NormalBuffer));  // VBO - Normal
+	glBindBuffer(GL_ARRAY_BUFFER, this->NormalBuffer); // Bind the VBO vertices
+	glBufferData(GL_ARRAY_BUFFER, numVertices * sizeof(glm::vec3), normal, GL_STATIC_DRAW); // Copy the vertices into VBO
+	GLint normalID = glGetAttribLocation(this->ShaderID->id(), "normal");
+	glVertexAttribPointer(normalID, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), 0);
+	glEnableVertexAttribArray(normalID);   //<-- Enable normalID attribute
+
+	glGenBuffers(1, &(this->TextureBuffer));  // VBO - textures
+	glBindBuffer(GL_ARRAY_BUFFER, this->TextureBuffer); // Bind the VBO textures
+	glBufferData(GL_ARRAY_BUFFER, 6 * 6 * 2 * sizeof(GLfloat), tex, GL_STATIC_DRAW);  // Copy the vertex into VBO
+	GLint textureCoordinateID = glGetAttribLocation(this->ShaderID->id(), "uv_coord");
+	glVertexAttribPointer(textureCoordinateID, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(textureCoordinateID);
+
+	glGenBuffers(1, &this->EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, numVertices * sizeof(GLushort), indicesv2, GL_STATIC_DRAW);
+
 
 	GLint ColourID = glGetAttribLocation(this->ShaderID->id(), "aColour");
 	glVertexAttribPointer(textureCoordinateID, 2, GL_FLOAT, GL_FALSE, 0, 0);
@@ -43,3 +120,4 @@ WallObj::WallObj(GLenum primitive_mode, int numVertices, const GLfloat* vertices
 
 	glActiveTexture(GL_TEXTURE0);
 }
+*/

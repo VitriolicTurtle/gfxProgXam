@@ -33,5 +33,6 @@ public:
 	void moveView(Window* window, float deltaTime);
 	
 
+	glm::vec3 getFront() { return cameraFront; }
 	glm::mat4 getView() { return view; }
 };

@@ -6,14 +6,15 @@
 
 class MapObj {
 private:
-	GLint id;
 	glm::vec3 pos;
 	glm::vec3 size;
 	bool visible;
+	GLint id;
 public:
 
 	MapObj() {}
 	MapObj(int i, glm::vec3 p, glm::vec3 s) { id = 0; pos = p; size = s; visible = true; }
+	
 
 
 

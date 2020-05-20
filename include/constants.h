@@ -13,6 +13,10 @@ extern glm::vec2 mouseData;
 extern void mouseCallback(GLFWwindow* window, double xpos, double ypos);
 
 
+extern GLfloat miniVertices[];
+extern GLfloat miniUvCoords[];
+extern GLfloat indices[];
+
 
 extern GLfloat vertices[];
 extern GLfloat normal[];

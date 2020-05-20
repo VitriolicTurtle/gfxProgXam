@@ -29,10 +29,10 @@ void Game::startGame() {
     GFX_INFO("starting app...");
     
     MapLoader mapObjects;
-    mapObjects.loadMap("zxzz");
-
+    mapObjects.loadMap();
+    //mapObjects.normalsGenerator(10, 10);
+    
     Renderer renderer;
-
 
 
     float deltaTime = 0.0f;
@@ -46,15 +46,15 @@ void Game::startGame() {
         //////////////////////////////////////////////////////
 
         gameWindow.setViewport();
-        glClearColor(0, 0, 0, 1);
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
 
-
-        renderer.loadMap(mapObjects.getWallVector(), mapObjects.getPlayer());
+        //renderer.loadMap(mapObjects.getWallVector(), mapObjects.getPlayer());
         mapObjects.getPlayer()->movePlayer(&gameWindow, deltaTime);
-
+        mapObjects.MVP();
+        mapObjects.render();
 
 
         gameWindow.swapBuffers();         
