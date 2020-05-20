@@ -6,6 +6,33 @@ void Player::movePlayer(Window* window, float deltaTime){
     float cameraSpeed = 6.5 * deltaTime;                   
     bool move = true;
 
+
+    // Add the force of gravity
+    force += glm::vec3(0.0f, -98.1f, 0.0f);
+    velocity += (force * deltaTime);
+    translate += (velocity * deltaTime);
+
+    // Make sure we don't fall through the terrain
+    /*
+    if (1 != NULL)
+    {
+        float fHeight = m_pTerrain->GetHeightAt(m_Translate);
+        if (m_Translate.y < (fHeight + m_fHeightOffset))
+        {
+            m_bIsOnGround = true;
+            m_Translate.y = fHeight + m_fHeightOffset;
+        }
+    }
+    */
+    // Reset the force vector
+   // m_Force = glm::vec3(0);
+    // Slow down our movement by friction amount
+  //  const float fTargetFrameRate = 60.0f;
+//    m_Velocity *= powf(m_fFriction, fTargetFrameRate * fDeltaTime);
+
+
+
+
     if (glfwGetKey(window->window, GLFW_KEY_W) == GLFW_PRESS)      
         tempCamPos += cameraSpeed * cameraFront;
     if (glfwGetKey(window->window, GLFW_KEY_S) == GLFW_PRESS)      

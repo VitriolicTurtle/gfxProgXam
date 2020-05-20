@@ -1,6 +1,7 @@
 #include "..\include\renderer.h"
 
-void Renderer::loadMap(std::vector<WallObj>* wallVector, Player* player) {
+
+void loadMap(std::vector<WallObj>* wallVector, Player* player) {
 	for (auto iter = begin(*wallVector); iter != end(*wallVector); ++iter) {
 
 

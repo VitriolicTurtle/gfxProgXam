@@ -20,20 +20,25 @@ private:
 	GLuint vao;
 	GLuint vbo;
 	GLuint ibo;
+	GLuint nb;
 	GLuint tb;
+	std::vector<glm::vec3>  PB;				//	Positions
 	std::vector<glm::vec3> vertices;
 	std::vector<short> indexes;
-	std::vector<short> normals;
+	std::vector<glm::vec3> normals;
+
+	glm::mat4x4 WorldMtx = glm::mat4x4(1);
+	glm::mat4x4 invWorldMtx = glm::mat4x4(1);;
 
 public:
 																		//	Reads the texture and shader from file.   Gjovik_HeightMapLow
 	MapLoader(){	heightMap = new ObjTexture("resources/HeightMaps/gjovikSmall.png", false); 
 				//	heightMap = new ObjTexture("resources/HeightMaps/Tyrif_HeightMapLow.png", false); 
-					grass = new ObjTexture("resources/Textures/grass.jpg", false);
+					grass = new ObjTexture("resources/Textures/Grass.png", false);
 					shaProg = new ObjShader("resources/Shaders/vertex.vert", "resources/Shaders/fragment.frag"); }
 	void loadMap();							//	Loads map objects
 	void loadChunk();
-	void normalsGenerator(int Cx, int Cz);
+	float normalsGenerator(const glm::vec3& position);
 	void makeIB();
 	void makeVD();
 	void makeNB();

@@ -17,7 +17,7 @@ ObjTexture::ObjTexture(const char* filename) {
     int twidth, theight, nrComponents;
     unsigned char* image = stbi_load(filename, &twidth, &theight, &nrComponents, 4);
     
-    
+ 
     
     
     glGenTextures(1, &textureID);

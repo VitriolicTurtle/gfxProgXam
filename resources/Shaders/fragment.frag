@@ -8,11 +8,11 @@ in vec3 vsColour;
 
 
 uniform sampler2D sampler;
-uniform vec3 light_color = vec3(0.8, 0.8, 0.5);
+uniform vec3 light_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 light_position;
 uniform float specularity = 1; 
 
-uniform vec3 testCol = {1.0, 0.0, 0.0};
+uniform vec3 testCol = {1.0, 1.0, 1.0};
 
 uniform mat4 view=mat4(1);
 uniform mat4 model=mat4(1);
@@ -45,8 +45,8 @@ vec3 PointLight(
         vec3 specular = specularity * spec_power * intensities;
 
         // Attenuation          Intensity reduction when traveling through space.
-        float distance = length(position - vec3(model * vert_position));
-        float attenuation = 12 / (constant + linear * distance + quadratic * distance * distance + EPSILON);
+        float distance = 0.8*length(position - vec3(model * vert_position));
+        float attenuation = 100 / (constant + linear * distance + quadratic * distance * distance + EPSILON);
         
         return (ambient + diffuse + specular) * attenuation;
         }

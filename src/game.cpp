@@ -51,7 +51,6 @@ void Game::startGame() {
 
 
 
-        //renderer.loadMap(mapObjects.getWallVector(), mapObjects.getPlayer());
         mapObjects.getPlayer()->movePlayer(&gameWindow, deltaTime);
         mapObjects.MVP();
         mapObjects.render();

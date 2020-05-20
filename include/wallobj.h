@@ -26,8 +26,9 @@ struct VAO {
 class WallObj : public VAO, public MapObj {
 public:
 	WallObj(GLenum primitive_mode, int numVertices, std::vector<short> indices, std::vector<glm::vec3> vertices, const GLfloat* tex, ObjTexture* texProg, ObjShader* shaProg, GLenum fill_model, int id, glm::vec3 pos, glm::vec3 size);
-	//WallObj(GLenum primitive_mode, int numVertices, GLushort* indicesv2, const glm::vec3* vertices, const glm::vec3* normal, const GLfloat* tex, ObjTexture* texProg, ObjShader* shaProg, GLenum fill_model, int id, glm::vec3 pos, glm::vec3 size);
 	~WallObj() { glBindVertexArray(0); }
+
+	
 
 
 	//GLuint id() const { return VertexArrayID; }
