@@ -28,17 +28,20 @@ Game::Game(int w, int h) {
 void Game::startGame() {
     GFX_INFO("starting app...");
     
-    MapLoader loader;
-    Renderer renderer;
+    MapLoader loader;                                                               // Holds all objects rendered & player (Map, Animals, Trees, Sun and Player) 
+    Renderer renderer;                                                              // Takes care of the drawing of objects as well as the changing of uniform variables
 
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
+    float timeCapturer = 0.0f;
 
     do {
         //  DELTATIME FUNCTIONALITY 
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
+        timeCapturer += deltaTime;
+        if (timeCapturer >= 5.0f) timeCapturer = 0.0f;                               // For initialising actions after a set time (E.g. generate new model walking direction)
         //////////////////////////////////////////////////////
         gameWindow.setViewport();
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -49,10 +52,10 @@ void Game::startGame() {
         */
         //////////////////////////////////////////////////////
 
-        loader.getPlayer()->movePlayer(&gameWindow, deltaTime, loader.getMap());
+        loader.getPlayer()->movePlayer(&gameWindow, deltaTime, loader.getMap(), &loader.getObjModels()[0].front());
         renderer.drawMap(&loader);
         renderer.drawObjModel(&loader);
-        //renderer.drawMap(&loader);
+        loader.moveObjModels(deltaTime, timeCapturer);
 
 
 

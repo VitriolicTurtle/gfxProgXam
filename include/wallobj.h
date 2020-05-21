@@ -20,7 +20,6 @@ private:
 public:
 	WallObj();
 	~WallObj() { glBindVertexArray(0); }
-	float getHeight(const glm::vec3& position);
 	void makeIB();
 	void makeVD();
 	void makeNB();

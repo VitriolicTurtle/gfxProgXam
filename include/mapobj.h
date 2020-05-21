@@ -38,6 +38,6 @@ public:
 	inline void setPos(glm::vec3 nuPos) { pos = nuPos; }
 	inline void setSize(glm::vec3 nuSize) { size = nuSize; }
 	inline glm::vec3 getPos() { return pos; }
-	inline glm::vec3 getSizee() { return size; }
+	inline glm::vec3 getSize() { return size; }
 	inline int getId() { return id; }
 };

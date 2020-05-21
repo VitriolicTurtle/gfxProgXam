@@ -64,61 +64,6 @@ WallObj::WallObj() {
 }
 
 
-float WallObj::getHeight(const glm::vec3& position) {
-	float retHeight = -FLT_MAX;
-	float scale = 0.5f;
-	if (width < 2 || height < 2) return retHeight;
-
-	// Width and height of the terrain in world units
-	float terrainWidth = (width - 1) * scale;
-	float terrainHeight = (height - 1) * scale;
-	float halfWidth = terrainWidth * 0.5f;
-	float halfHeight = terrainHeight * 0.5f;
-
-	glm::vec3 terrainPos = glm::vec3(invWorldMtx * glm::vec4(position, 1.0f));
-	glm::vec3 invBlockScale(1.0f / scale, 0.0f, 1.0f / scale);
-	glm::vec3 offset(halfWidth, 0.0f, halfHeight);
-	glm::vec3 vertexIndices = (terrainPos + offset) * invBlockScale;
-
-	int u0 = (int)floorf(vertexIndices.x);
-	int u1 = u0 + 1;
-	int v0 = (int)floorf(vertexIndices.z);
-	int v1 = v0 + 1;
-
-
-	if (u0 >= 0 && u1 < (int)width && v0 >= 0 && v1 < (int)height)
-	{
-		glm::vec3 p00 = PB[(v0 * width) + u0];    // Top-left vertex
-		glm::vec3 p10 = PB[(v0 * width) + u1];    // Top-right vertex
-		glm::vec3 p01 = PB[(v1 * width) + u0];    // Bottom-left vertex
-		glm::vec3 p11 = PB[(v1 * width) + u1];    // Bottom-right vertex
-
-		// Which triangle are we over?
-		float percentU = vertexIndices.x - u0;
-		float percentV = vertexIndices.z - v0;
-
-		glm::vec3 dU, dV;
-		if (percentU > percentV)
-		{   // Top triangle
-			dU = p10 - p00;
-			dV = p11 - p10;
-		}
-		else
-		{   // Bottom triangle
-			dU = p11 - p01;
-			dV = p01 - p00;
-		}
-
-		glm::vec3 heightPos = p00 + (dU * percentU) + (dV * percentV);
-		// Convert back to world-space by multiplying by the terrain's world matrix
-		heightPos = glm::vec3(WorldMtx * glm::vec4(heightPos, 1));
-		height = heightPos.y;
-	}
-
-	return height;
-
-}
-
 /////			GET INDEX BUFFERS
 void WallObj::makeIB() {
 

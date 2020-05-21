@@ -1,58 +1,67 @@
 #include "player.h"
 #include <iostream>
 
-void Player::movePlayer(Window* window, float deltaTime, WallObj* map){
+void Player::movePlayer(Window* window, float deltaTime, WallObj* map, ObjModel* posModel){
     
     glm::vec3 tempCamPos = this->getPos();
     float cameraSpeed = 10.5 * deltaTime;                   
-    bool isGrounded = false;
+    bool isGrounded = true;
     float heightOffsett = 5.0f;
-    float friction = 0.9f;
 
     float fallValue = 0;//-3.8f;
 
 
-
-
-
-    if (glfwGetKey(window->window, GLFW_KEY_W) == GLFW_PRESS)      
+    //      If you press E you get to see from ducks position.
+    if (glfwGetKey(window->window, GLFW_KEY_E) == GLFW_PRESS) {
+        tempCamPos = posModel->getPos();
+    }
+    //      If you press Q you see from perspective above.
+    else if (glfwGetKey(window->window, GLFW_KEY_Q) == GLFW_PRESS) {
+        tempCamPos = glm::vec3(4.0f, 0.0f, 18.0f);;
+    }
+    if (glfwGetKey(window->window, GLFW_KEY_W) == GLFW_PRESS)
         tempCamPos += cameraSpeed * cameraFront;
-    if (glfwGetKey(window->window, GLFW_KEY_S) == GLFW_PRESS)      
+    if (glfwGetKey(window->window, GLFW_KEY_S) == GLFW_PRESS)
         tempCamPos -= cameraSpeed * cameraFront;
-    if (glfwGetKey(window->window, GLFW_KEY_A) == GLFW_PRESS)      
-        tempCamPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;   
-    if (glfwGetKey(window->window, GLFW_KEY_D) == GLFW_PRESS) {      
+    if (glfwGetKey(window->window, GLFW_KEY_A) == GLFW_PRESS)
+        tempCamPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    if (glfwGetKey(window->window, GLFW_KEY_D) == GLFW_PRESS) {
         tempCamPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     }
-    moveView(window, deltaTime);                                    // Mouse input handler
 
 
-
+    //      After moving you then set the position of the model.
+    //      NB! Moving the duck into an area outside of where its walking borders are can cause it to glitch in spasms.
+    if (glfwGetKey(window->window, GLFW_KEY_E) == GLFW_PRESS) {
+        posModel->setPos(tempCamPos);
+    }
 
     float tcpx = tempCamPos.x;
     if (tcpx < 0) tcpx *= -1.0;
     float tcpz = tempCamPos.z;
     if (tcpz < 0) tcpz *= -1.0;
 
-    float fHeight = (((float)map->heightMap->getPixel(tcpz, tcpx) / (float)100)*40) * (-1.09);
+    float fHeight = (((float)map->heightMap->getPixel(tcpz, tcpx) / (float)100) * 40) * (-1.09);
 
-    std::cout << getPos().x << " " << getPos().y << " " << getPos().z << std::endl;
-    std::cout << fHeight + heightOffsett << "                            " << fallValue << std::endl;
+    //std::cout << getPos().x << " " << getPos().y << " " << getPos().z << std::endl;
+    //std::cout << fHeight + heightOffsett << "                            " << fallValue << std::endl;
 
     float groundedYpos = 0;
-    if (tempCamPos.y + fallValue < (fHeight + heightOffsett)){
-            isGrounded = true;
-            fallValue = 0;
-            float groundedYpos = (float)(fHeight + heightOffsett);
+    if (tempCamPos.y + fallValue < (fHeight + heightOffsett)) {
+        isGrounded = true;
+        fallValue = 0;
+        float groundedYpos = (float)(fHeight + heightOffsett);
     }
     tempCamPos.y += fallValue * deltaTime;
-    
+
     if (fallValue == 0.0f) isGrounded = false;
 
     if (isGrounded) {
         tempCamPos.y = fHeight;
     }
 
+
+    moveView(window, deltaTime);                                    // Mouse input handler
     this->setPos(tempCamPos);                                                            
     view = glm::lookAt(this->getPos(), this->getPos() + cameraFront, cameraUp);
 

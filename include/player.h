@@ -2,6 +2,7 @@
 #include "constants.h"
 #include "wallobj.h"
 #include "window.h"
+#include "objmodel.h"
 
 
 /*
@@ -34,7 +35,7 @@ private:
 	glm::vec3   translate;
 public:
 	Player() : MapObj(0, glm::vec3(4.0f,-66.0f,18.0f), glm::vec3(1, 1, 1)){		}
-	void movePlayer(Window* window, float deltaTime, WallObj* map);
+	void movePlayer(Window* window, float deltaTime, WallObj* map, ObjModel* objModelPosition);
 	void moveView(Window* window, float deltaTime);
 	
 

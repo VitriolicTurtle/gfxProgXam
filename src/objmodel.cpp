@@ -1,5 +1,5 @@
 #include "objmodel.h"
-
+#include <iostream>
 
 
 ObjModel::~ObjModel() noexcept
@@ -52,16 +52,18 @@ ObjModel& ObjModel::operator=(ObjModel&& other)
 }
 
 
-void ObjModel::load(const char* filepath_obj, const char* diffuse_path, glm::vec3 position, glm::vec3 size) {
+void ObjModel::load(const char* filepath_obj, const char* diffuse_path, glm::vec3 position, glm::vec3 size, bool flying, int climbBorder, float rotate) {
 
     tempSha = ObjShader("resources/shaders/vertex.vert", "resources/shaders/fragment.frag");
     tempTex = ObjTexture(diffuse_path, true, false);
 
     this->setPos(position);
     this->setSize(size);
+    this->canFly = flying;
+    this->yPosCap = climbBorder;
+    this->rotationRadian = rotate;
     objPos = getPos();
 
-    //--------------------------------------------------comment out here
     tinyobj::attrib_t attributes{};
     std::vector<tinyobj::shape_t> shapes{};
     std::vector<tinyobj::material_t> materials{};
@@ -133,6 +135,71 @@ void ObjModel::load(const char* filepath_obj, const char* diffuse_path, glm::vec
 
     GFX_INFO("Loaded model %s (%u vertices).", filepath_obj, out_vertices.size());
 }
+
+void ObjModel::moveObjModel(float deltaTime, float timeCapturer, WallObj* map){
+    glm::vec3 tempModelPos = getPos();                       // Temporary posisiton used to check the position input before actually performing the repositioning.
+    float cameraSpeed = 2.5 * deltaTime;                    //	Sets movement speed.
+
+
+    if(timeCapturer >= 4.98) movementDirection = rand() % 4 + 1;
+
+
+    //	Based on random INT: Move in 1 of 4 directions.  (Initially value is 2,   new random values are generated when ghost collides with a wall.) 
+    switch (movementDirection) {
+    case 1:		tempModelPos += cameraSpeed * modelFront;	            //z+
+        directionRadian = 3.141592f;								// Radians are used in rendering function for ghost, it rotates the ghost so that it will face the direction its walking.
+        break;
+    case 2:		tempModelPos -= cameraSpeed * modelFront;	            //z-
+        directionRadian = 0.0f;
+        break;
+    case 3:		tempModelPos -= glm::normalize(glm::cross(modelFront, modelUp)) * cameraSpeed;
+        directionRadian = 1.570796f;
+        break;
+    case 4:		tempModelPos += glm::normalize(glm::cross(modelFront, modelUp)) * cameraSpeed;
+        directionRadian = 4.712388f;
+        break;
+    }
+     
+    // directionRadian = 0.0f;		
+    // directionRadian = 3.141592f;		
+    // directionRadian = 4.712388f;		
+    // directionRadian = 1.570796f;	
+
+    float heightOffsett = +1.0;
+
+                                                                     // The 4 rows below turn negative pixels into positive.
+    float tcpx = tempModelPos.x;                                    
+    if (tcpx < 0) tcpx *= -1.0;
+    float tcpz = tempModelPos.z;
+    if (tcpz < 0) tcpz *= -1.0;
+                                                                     // Fetched the colour which is used to calculate height of area.
+    float fHeight = (((float)map->heightMap->getPixel(tcpz, tcpx) / (float)100) * 40) * (-1.09);
+
+
+
+    if (tempModelPos.y + fallValue < (fHeight + heightOffsett)-10) {
+        isGrounded = true;
+        fallValue = 0;
+        float groundedYpos = (float)(fHeight + heightOffsett);
+    }
+
+    //if (fallValue == 0.0f) isGrounded = false;
+
+    if (!canFly) {                                                     // If it cant fly
+        tempModelPos.y += fallValue * deltaTime;
+        tempModelPos.y = fHeight-20;                                   // Sets the y position to the ground. -20 is because the "mathematical" height is not the same as the graphic shown, so its purely to make it look better.
+        if(fHeight > yPosCap) movementDirection = rand() % 4 + 1;      // Limits animals to not be able to climb up high places. (Only able to walk through some walls now because the mathematical heights are not equal to the graphic). And gets new direction.
+    }
+    //-55 fish
+
+
+
+     setPos(tempModelPos);
+     this->objPos = tempModelPos;
+     view = glm::lookAt(getPos(), getPos() + modelFront, modelUp);
+
+}
+
 
 
 
