@@ -49,8 +49,11 @@ void Game::startGame() {
         */
         //////////////////////////////////////////////////////
 
-        loader.getPlayer()->movePlayer(&gameWindow, deltaTime);
+        loader.getPlayer()->movePlayer(&gameWindow, deltaTime, loader.getMap());
         renderer.drawMap(&loader);
+        renderer.drawObjModel(&loader);
+        //renderer.drawMap(&loader);
+
 
 
         //////////////////////////////////////////////////////

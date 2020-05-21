@@ -12,7 +12,7 @@ uniform vec3 light_color = vec3(1.0, 1.0, 1.0);
 uniform vec3 light_position;
 uniform float specularity = 1; 
 
-uniform vec3 testCol = {1.0, 1.0, 1.0};
+uniform vec3 testCol = {1.0, 0.0, 0.0};
 
 uniform mat4 view=mat4(1);
 uniform mat4 model=mat4(1);

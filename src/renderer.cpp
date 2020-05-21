@@ -45,3 +45,33 @@ void Renderer::drawMap(MapLoader* map){
 	glDrawElements(GL_TRIANGLES, map->getMap()->indexes.size(), GL_UNSIGNED_SHORT, 0);
 	glDisableVertexAttribArray(0);
 }
+
+void Renderer::drawObjModel(MapLoader* map){
+	for (auto iter = begin(*map->getObjModels()); iter != end(*map->getObjModels()); ++iter) {
+		
+		glUseProgram(iter->textureProgramID->id());
+
+		GLint modelID = glGetUniformLocation(iter->ShaderID->id(), "model");
+		GLint viewID = glGetUniformLocation(map->getMap()->ShaderID->id(), "view");
+		GLint projectionID = glGetUniformLocation(iter->ShaderID->id(), "projection");
+		GLint lightPositionID = glGetUniformLocation(iter->ShaderID->id(), "light_position");
+
+
+		glm::mat4 projection = glm::perspective(3.14f / 3.0f, (GLfloat)1024 / (GLfloat)768, 0.1f, -10.0f);
+		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(iter->getPos().x, iter->getPos().y, iter->getPos().z)) * glm::scale(glm::mat4(1.0f), glm::vec3(iter->getSizee().x, iter->getSizee().y, iter->getSizee().z)) * glm::rotate(glm::mat4(1.0f), -190.1f, glm::vec3(1, 0, 0));;
+		glm::mat4 view = map->getPlayer()->getView();
+
+
+		glUniformMatrix4fv(projectionID, 1, GL_FALSE, glm::value_ptr(projection));
+		glUniformMatrix4fv(modelID, 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(viewID, 1, GL_FALSE, glm::value_ptr(view));
+		glUniform3f(lightPositionID, map->getPlayer()->getPos().x, map->getPlayer()->getPos().y, map->getPlayer()->getPos().z);
+
+		glBindBuffer(GL_ARRAY_BUFFER, iter->VertexBuffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iter->ElementBuffer);
+		glBindVertexArray(iter->VertexArrayID);
+
+		iter->textureProgramID->bind();
+		glDrawElements(GL_TRIANGLES, iter->NumVertices, GL_UNSIGNED_INT, nullptr);
+	}
+}

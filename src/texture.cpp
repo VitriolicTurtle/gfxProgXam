@@ -40,11 +40,11 @@ ObjTexture::ObjTexture(const char* filename) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-ObjTexture::ObjTexture(const char* filename, bool flipImage) {
+ObjTexture::ObjTexture(const char* filename, bool flipImage, bool isHeightMap) {
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
-
     
+
     stbi_set_flip_vertically_on_load(flipImage);
     image = stbi_load(filename, &twidth, &theight, &nrComponents, STBI_rgb_alpha);
 
@@ -54,16 +54,9 @@ ObjTexture::ObjTexture(const char* filename, bool flipImage) {
         return;
     }
 
-     pixelData = std::vector<unsigned char>(image, image + twidth * theight*4);
+    if (isHeightMap) { pixelData = std::vector<unsigned char>(image, image + twidth * theight * 4); }
 
 
-    GLenum format;
-    if (nrComponents == 1)
-        format = GL_RED;
-    else if (nrComponents == 3)
-        format = GL_RGB;
-    else if (nrComponents == 4)
-        format = GL_RGBA;
     // target | lod | internal_format | width | height | border | format | type | data
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, twidth, theight, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
     glGenerateMipmap(GL_TEXTURE_2D); // Generate MipMaps to use
@@ -71,7 +64,6 @@ ObjTexture::ObjTexture(const char* filename, bool flipImage) {
 
     // Set these parameters to avoid a black screen caused by improperly mipmapped textures
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, textureID);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

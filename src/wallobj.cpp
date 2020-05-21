@@ -5,16 +5,12 @@
 #define ENABLE_MULTITEXTURE 1
 #endif
 
-inline float calcPercentage(float value, float min, float max) {
-	value = glm::clamp(value, min, max);
-	return (value - min) / (max - min);
-}
 
 WallObj::WallObj() {
 
 	// Create height map, texture, and shader.
-	this->heightMap = new ObjTexture("resources/HeightMaps/gjovikSmall.png", false);
-	this->textureProgramID = new ObjTexture("resources/Textures/Grass.png", false);
+	this->heightMap = new ObjTexture("resources/HeightMaps/xGjovikSmall.png", false, true);
+	this->textureProgramID = new ObjTexture("resources/Textures/xGjovikSmallTex.png", false, false);
 	this->ShaderID = new ObjShader("resources/Shaders/vertex.vert", "resources/Shaders/fragment.frag");
 
 	// Get width for future use.
@@ -22,10 +18,10 @@ WallObj::WallObj() {
 	height = this->heightMap->getSize().y;
 	PB.resize(width * height);
 
+	this->setPos(glm::vec3(0, 0, 0));
 
 	makeIB();
 	makeVD();
-
 
 
 	glEnable(GL_TEXTURE_2D);
@@ -68,9 +64,9 @@ WallObj::WallObj() {
 }
 
 
-float WallObj::normalsGenerator(const glm::vec3& position) {
+float WallObj::getHeight(const glm::vec3& position) {
 	float retHeight = -FLT_MAX;
-	float scale = 1.0f;
+	float scale = 0.5f;
 	if (width < 2 || height < 2) return retHeight;
 
 	// Width and height of the terrain in world units
@@ -171,7 +167,6 @@ void WallObj::makeNB() {
 		normals[indexes[i + 2]] += normal;
 	}
 
-	const glm::vec3 UP(0.0f, 1.0f, 0.0f);
 	for (unsigned int i = 0; i < normals.size(); ++i)
 	{
 		normals[i] = glm::normalize(normals[i]);

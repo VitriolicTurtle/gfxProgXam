@@ -1,6 +1,6 @@
 #pragma once
 #include "constants.h"
-#include "mapobj.h"
+#include "wallobj.h"
 #include "window.h"
 
 
@@ -27,13 +27,14 @@ private:
 	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	glm::mat4 view;
+	bool isGrounded;
 
 	glm::vec3   force;
 	glm::vec3   velocity;
 	glm::vec3   translate;
 public:
-	Player() : MapObj(0, glm::vec3(0,0,0), glm::vec3(1, 1, 1)){		}
-	void movePlayer(Window* window, float deltaTime);
+	Player() : MapObj(0, glm::vec3(4.0f,-66.0f,18.0f), glm::vec3(1, 1, 1)){		}
+	void movePlayer(Window* window, float deltaTime, WallObj* map);
 	void moveView(Window* window, float deltaTime);
 	
 

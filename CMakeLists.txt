@@ -28,6 +28,9 @@ target_sources(
     ${CMAKE_CURRENT_LIST_DIR}/include/wallobj.h
     ${CMAKE_CURRENT_LIST_DIR}/src/wallobj.cpp
 
+    ${CMAKE_CURRENT_LIST_DIR}/include/objmodel.h
+    ${CMAKE_CURRENT_LIST_DIR}/src/objmodel.cpp
+
     ${CMAKE_CURRENT_LIST_DIR}/include/shader.h
     ${CMAKE_CURRENT_LIST_DIR}/src/shader.cpp
 

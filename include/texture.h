@@ -13,7 +13,7 @@ public:
     ObjTexture() {}
     ~ObjTexture();
     ObjTexture(const char* filename);
-    ObjTexture(const char* filename, bool flipImage);                          // Standard texture loading constructor
+    ObjTexture(const char* filename, bool flipImage, bool isHeightMap);                          // Standard texture loading constructor
     ObjTexture(ObjTexture&& other);
     ObjTexture(const ObjTexture&) = delete;
     ObjTexture& operator=(const ObjTexture&) = delete;

@@ -1,34 +1,16 @@
 #include "player.h"
+#include <iostream>
 
-void Player::movePlayer(Window* window, float deltaTime){
+void Player::movePlayer(Window* window, float deltaTime, WallObj* map){
     
     glm::vec3 tempCamPos = this->getPos();
-    float cameraSpeed = 6.5 * deltaTime;                   
-    bool move = true;
+    float cameraSpeed = 10.5 * deltaTime;                   
+    bool isGrounded = false;
+    float heightOffsett = 5.0f;
+    float friction = 0.9f;
 
+    float fallValue = 0;//-3.8f;
 
-    // Add the force of gravity
-    force += glm::vec3(0.0f, -98.1f, 0.0f);
-    velocity += (force * deltaTime);
-    translate += (velocity * deltaTime);
-
-    // Make sure we don't fall through the terrain
-    /*
-    if (1 != NULL)
-    {
-        float fHeight = m_pTerrain->GetHeightAt(m_Translate);
-        if (m_Translate.y < (fHeight + m_fHeightOffset))
-        {
-            m_bIsOnGround = true;
-            m_Translate.y = fHeight + m_fHeightOffset;
-        }
-    }
-    */
-    // Reset the force vector
-   // m_Force = glm::vec3(0);
-    // Slow down our movement by friction amount
-  //  const float fTargetFrameRate = 60.0f;
-//    m_Velocity *= powf(m_fFriction, fTargetFrameRate * fDeltaTime);
 
 
 
@@ -42,11 +24,34 @@ void Player::movePlayer(Window* window, float deltaTime){
     if (glfwGetKey(window->window, GLFW_KEY_D) == GLFW_PRESS) {      
         tempCamPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
     }
+    moveView(window, deltaTime);                                    // Mouse input handler
+
+
+
+
+    float tcpx = tempCamPos.x;
+    if (tcpx < 0) tcpx *= -1.0;
+    float tcpz = tempCamPos.z;
+    if (tcpz < 0) tcpz *= -1.0;
+
+    float fHeight = (((float)map->heightMap->getPixel(tcpz, tcpx) / (float)100)*40) * (-1.09);
+
+    std::cout << getPos().x << " " << getPos().y << " " << getPos().z << std::endl;
+    std::cout << fHeight + heightOffsett << "                            " << fallValue << std::endl;
+
+    float groundedYpos = 0;
+    if (tempCamPos.y + fallValue < (fHeight + heightOffsett)){
+            isGrounded = true;
+            fallValue = 0;
+            float groundedYpos = (float)(fHeight + heightOffsett);
+    }
+    tempCamPos.y += fallValue * deltaTime;
     
+    if (fallValue == 0.0f) isGrounded = false;
 
-    moveView(window, deltaTime);
-
-
+    if (isGrounded) {
+        tempCamPos.y = fHeight;
+    }
 
     this->setPos(tempCamPos);                                                            
     view = glm::lookAt(this->getPos(), this->getPos() + cameraFront, cameraUp);

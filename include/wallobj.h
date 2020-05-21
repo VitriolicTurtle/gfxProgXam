@@ -1,27 +1,12 @@
 #pragma once
 #include "constants.h"
 #include "mapobj.h"
-#include "player.h"
 
 
 
-struct VAO {
-	GLuint VertexArrayID;
-	GLuint VertexBuffer;
-	GLuint TextureBuffer;
-	GLuint TextureID;
-	GLuint ElementBuffer;
-	GLuint NormalBuffer;
-
-	ObjShader* ShaderID;
-	ObjTexture* heightMap;					//	Height map 
-	ObjTexture* textureProgramID;
-	std::vector<short> indexes;
-
-};
 
 
-class WallObj : public VAO, public MapObj {
+class WallObj : public MapObj {
 private:
 	int width;
 	int height;
@@ -35,13 +20,13 @@ private:
 public:
 	WallObj();
 	~WallObj() { glBindVertexArray(0); }
-
-	float normalsGenerator(const glm::vec3& position);
+	float getHeight(const glm::vec3& position);
 	void makeIB();
 	void makeVD();
 	void makeNB();
 
-	int getID() { return getId(); }
-	void bind() { glBindVertexArray(this->VertexArrayID); }
-	void unbind() { glBindVertexArray(0); }
+	inline int getID() { return getId(); }
+	glm::vec3 getPOS() { return getPos(); }
+	inline void bind() { glBindVertexArray(this->VertexArrayID); }
+	inline void unbind() { glBindVertexArray(0); }
 };

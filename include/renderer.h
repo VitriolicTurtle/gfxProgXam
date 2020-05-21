@@ -7,4 +7,5 @@ private:
 public:
 	Renderer() {}
 	void drawMap(MapLoader* map);
+	void drawObjModel(MapLoader* map);
 };
