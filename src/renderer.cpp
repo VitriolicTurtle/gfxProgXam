@@ -2,6 +2,8 @@
 
 void Renderer::drawMap(MapLoader* map){
 	
+	
+
 	GLint lightPositionID = glGetUniformLocation(map->getMap()->ShaderID->id(), "light_position");
 	GLint modelLoc = glGetUniformLocation(map->getMap()->ShaderID->id(), "model");
 	GLint viewLoc = glGetUniformLocation(map->getMap()->ShaderID->id(), "view");
@@ -62,7 +64,7 @@ void Renderer::drawObjModel(MapLoader* map){
 		glm::mat4 projection = glm::perspective(3.14f / 3.0f, (GLfloat)1024 / (GLfloat)768, 0.1f, -10.0f);
 		glm::mat4 model = glm::translate(test, glm::vec3(iter->getPos().x, iter->getPos().y, iter->getPos().z))
 			* glm::scale(test, glm::vec3(iter->getSize().x, iter->getSize().y, iter->getSize().z))
-			* glm::rotate(test, iter->directionRadian, glm::vec3(0, -1, 0)) * glm::rotate(test, 0.1f, glm::vec3(1, 0, 0));
+			* glm::rotate(test, iter->directionRadian, glm::vec3(0, -1, 0)) * glm::rotate(test, iter->rotationRadian, glm::vec3(1, 0, 0));
 		
 		glm::mat4 view = map->getPlayer()->getView();
 

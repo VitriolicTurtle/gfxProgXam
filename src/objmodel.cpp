@@ -160,10 +160,6 @@ void ObjModel::moveObjModel(float deltaTime, float timeCapturer, WallObj* map){
         break;
     }
      
-    // directionRadian = 0.0f;		
-    // directionRadian = 3.141592f;		
-    // directionRadian = 4.712388f;		
-    // directionRadian = 1.570796f;	
 
     float heightOffsett = +1.0;
 
@@ -190,7 +186,6 @@ void ObjModel::moveObjModel(float deltaTime, float timeCapturer, WallObj* map){
         tempModelPos.y = fHeight-20;                                   // Sets the y position to the ground. -20 is because the "mathematical" height is not the same as the graphic shown, so its purely to make it look better.
         if(fHeight > yPosCap) movementDirection = rand() % 4 + 1;      // Limits animals to not be able to climb up high places. (Only able to walk through some walls now because the mathematical heights are not equal to the graphic). And gets new direction.
     }
-    //-55 fish
 
 
 

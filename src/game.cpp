@@ -52,7 +52,7 @@ void Game::startGame() {
         */
         //////////////////////////////////////////////////////
 
-        loader.getPlayer()->movePlayer(&gameWindow, deltaTime, loader.getMap(), &loader.getObjModels()[0].front());
+        loader.getPlayer()->movePlayer(&gameWindow, deltaTime, loader.getMap(), &loader.getObjModels()[0].back());
         renderer.drawMap(&loader);
         renderer.drawObjModel(&loader);
         loader.moveObjModels(deltaTime, timeCapturer);
